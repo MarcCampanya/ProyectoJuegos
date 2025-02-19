@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="logout.js"></script>
+  <title>Juego de Memoria</title>
+  <style>
+    #logoutButton {
+            background-color: #f44336;
+            /* Rojo para indicar acción importante */
+            color: white;
+            /* Texto blanco */
+            padding: 10px 20px;
+            /* Espaciado interno */
+            font-size: 16px;
+            /* Tamaño de la fuente */
+            border: none;
+            /* Sin borde */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            cursor: pointer;
+            /* Indicador de puntero al pasar el ratón */
+            transition: background-color 0.3s;
+            /* Transición suave para el cambio de color */
+            position: absolute;
+            /* Posicionarlo de manera absoluta */
+            top: 20px;
+            /* Ajusta la distancia desde la parte superior del contenedor */
+            right: 20px;
+            /* Alinearlo a la derecha */
+        }
+
+        #logoutButton:hover {
+            background-color: #d32f2f;
+            /* Color más oscuro cuando se pasa el ratón */
+        }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    header h1 {
+      cursor: pointer;
+    }
+
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #juego {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #tablero {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      /* 4 columnas */
+      grid-template-rows: repeat(4, 70px);
+      /* 4 filas */
+      gap: 10px;
+      background-color: #4CAF50;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .carta {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .carta.volteada .frente {
+      transform: rotateY(0deg);
+    }
+
+    .carta.volteada .reverso {
+      transform: rotateY(180deg);
+    }
+
+    .frente,
+    .reverso {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      transition: transform 0.5s ease;
+    }
+
+    .frente {
+      transform: rotateY(180deg);
+    }
+
+    .reverso {
+      background-color: #4CAF50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #mensaje {
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+    }
+
+    #home-icon-container {
+      position: fixed;
+      top: 20px;
+      /* Ajusta la distancia desde la parte superior */
+      left: 20px;
+      /* Asegura que esté completamente a la izquierda */
+      z-index: 10;
+      /* Para que esté por encima del resto del contenido */
+    }
+
+    #home-icon {
+      fill: white;
+      width: 40px;
+      /* Tamaño del icono, puedes ajustarlo según tu preferencia */
+      height: auto;
+      cursor: pointer;
+      margin-left: 10px;
+      /* Ajusta el margen para darle un poco de espacio desde el borde */
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Juego de Memoria</h1>
+    <a href="/index.html" id="home-icon-container">
+      <svg id="home-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+  </a>
+  <button id="logoutButton" style="display: none;">Cerrar sesión</button>
+  </header>
+
+  <main id="juego">
+    <div id="tablero"></div>
+    <button id="reiniciar">Reiniciar Juego</button>
+    <div id="mensaje"></div>
+  </main>
+
+  <script src="memoria.js" defer></script>
+</body>
+
+</html>

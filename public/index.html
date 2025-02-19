@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma de Juegos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Plataforma de Juegos</h1>
+    <div class="nav-buttons" id="nav-buttons">
+        <button onclick="location.href='/login.html'">Iniciar sesión</button>
+        <button onclick="location.href='/register.html'">Registrarse</button>
+    </div>
+    <button id="logoutButton" style="display:none;">Cerrar sesión</button>
+    <a href="index.html" id="home-icon-container">
+      <svg id="home-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </a>
+</header>
+
+
+  <main id="menuContainer">
+    <div class="card">
+      <img src="imagenes/tres-en-raya.png" alt="Tres en Raya">
+      <h3>Tres en Raya</h3>
+      <a href="juegos/tres-en-raya.html">Jugar</a>
+    </div>
+
+    <div class="card">
+      <img src="imagenes/conecta-cuatro.png" alt="Conecta 4">
+      <h3>Conecta 4</h3>
+      <a href="juegos/conecta-cuatro.html">Jugar</a>
+    </div>
+
+    <div class="card">
+      <img src="imagenes/wordle.png" alt="Wordle">
+      <h3>Wordle</h3>
+      <a href="juegos/wordle.html">Jugar</a>
+    </div>
+
+    <div class="card">
+      <img src="imagenes/damas.jpg" alt="Damas">
+      <h3>Damas</h3>
+      <a href="juegos/damas.html">Jugar</a>
+    </div>
+
+    <div class="card">
+      <img src="imagenes/ajedrez.png" alt="Ajedrez">
+      <h3>Ajedrez</h3>
+      <a href="juegos/ajedrez.html">Jugar</a>
+    </div>
+
+    <div class="card">
+      <img src="imagenes/memoria.png" alt="Memoria">
+      <h3>Memoria</h3>
+      <a href="juegos/memoria.html">Jugar</a>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Obtén los elementos relevantes
+      const navButtons = document.getElementById("nav-buttons");
+      const logoutButton = document.getElementById("logoutButton");
+
+      // Intentamos obtener el usuario de localStorage
+      const usuario = localStorage.getItem("usuario");
+      console.log("Usuario almacenado en localStorage:", usuario); // Esto te ayudará a verificar que el usuario está almacenado correctamente
+
+      // Verificar si el usuario está almacenado y mostrar u ocultar los botones apropiadamente
+      if (usuario) {
+        navButtons.style.display = "none";  // Ocultar los botones de "Iniciar sesión" y "Registrarse"
+        logoutButton.style.display = "inline";  // Mostrar el botón de "Cerrar sesión"
+      } else {
+        logoutButton.style.display = "none";  // Asegurarse de que el botón de "Cerrar sesión" esté oculto
+      }
+
+      logoutButton.addEventListener("click", () => {
+        localStorage.removeItem("usuario");  // Eliminar el usuario de localStorage
+        console.log("Usuario eliminado, redirigiendo...");
+        window.location.assign('/index.html');  // Redirigir al inicio
+      });
+
+
+      // Bloquear el acceso a los juegos si no se ha iniciado sesión
+      const cards = document.querySelectorAll(".card a");
+      cards.forEach((card) => {
+        card.addEventListener("click", (e) => {
+          if (!usuario) {
+            e.preventDefault();
+            alert("Debes iniciar sesión para acceder a los juegos.");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

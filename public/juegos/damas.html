@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Damas</title>
+    <script src="damas.js" defer></script>
+    <script src="logout.js"></script>
+    <style>
+        /* Estilos generales */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            padding-top: 60px;
+        }
+
+        .tablero {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            grid-template-rows: repeat(8, 60px);
+            border: 2px solid #333;
+            margin-top: 140px;
+        }
+
+        .casilla {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+        .blanca {
+            background-color: #eee;
+        }
+
+        .negra {
+            background-color: #444;
+            color: white;
+        }
+
+        .seleccionada {
+            outline: 3px solid red;
+        }
+
+        #turno-indicador {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #mensaje {
+            display: none;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #reiniciar {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #reiniciar:hover {
+            background-color: #218838;
+        }
+
+        #logoutButton {
+            background-color: #f44336;
+            /* Rojo para indicar acción importante */
+            color: white;
+            /* Texto blanco */
+            padding: 10px 20px;
+            /* Espaciado interno */
+            font-size: 16px;
+            /* Tamaño de la fuente */
+            border: none;
+            /* Sin borde */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            cursor: pointer;
+            /* Indicador de puntero al pasar el ratón */
+            transition: background-color 0.3s;
+            /* Transición suave para el cambio de color */
+            position: absolute;
+            /* Posicionarlo de manera absoluta */
+            top: 20px;
+            /* Ajusta la distancia desde la parte superior del contenedor */
+            right: 20px;
+            /* Alinearlo a la derecha */
+        }
+
+        #logoutButton:hover {
+            background-color: #d32f2f;
+            /* Color más oscuro cuando se pasa el ratón */
+        }
+
+        #home-icon {
+            fill: white;
+            /* Cambia el color del SVG */
+            width: 40px;
+            /* Ajusta el tamaño */
+            height: 40px;
+            /* Ajusta el tamaño */
+        }
+
+        #home-icon-container {
+            position: fixed;
+            top: 20px;
+            /* Ajusta la distancia desde la parte superior */
+            left: 20px;
+            /* Asegura que esté completamente a la izquierda */
+            z-index: 10;
+            /* Para que esté por encima del resto del contenido */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Juego de Damas</h1>
+        <a href="/index.html" id="home-icon-container">
+            <svg id="home-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+        </a>
+        <button id="logoutButton" style="display: none;">Cerrar sesión</button>
+    </header>
+    
+    <div class="tablero" id="tablero"></div>
+    <div id="turno-indicador">Turno de: Blancas</div>
+    <div id="mensaje"></div>
+    <button id="reiniciar" onclick="reiniciarJuego()">Reiniciar Partida</button>
+</body>
+</html>

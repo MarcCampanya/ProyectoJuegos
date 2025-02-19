@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle</title>
+    <script src="wordle.js" defer></script>
+    <script src="logout.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8%;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        header h1 {
+            cursor: pointer;
+        }
+
+        #home-icon-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        #home-icon {
+            fill: white;
+            width: 40px;
+            height: 40px;
+        }
+
+        #logoutButton {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+            margin-right: 20px;
+        }
+
+        #wordle-grid {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .grid-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .grid-cell {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background-color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .correct { background-color: green; color: white; }
+        .present { background-color: yellow; color: white; }
+        .absent { background-color: gray; color: white; }
+
+        #guess-input {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        #wordle-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 320px;  /* Asegúrate de que sea lo suficientemente amplio */
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="titulo-wordle">Wordle</h1>
+        <a href="/index.html" id="home-icon-container">
+            <svg id="home-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+        </a>
+        <button id="logoutButton" style="display: none;">Cerrar sesión</button>
+    </header>
+    
+    <div id="game-container">
+        <div id="wordle-grid">
+            <!-- Aquí se generarán las celdas de la cuadrícula 5x5 -->
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+        </div>
+        
+        <input type="text" id="guess-input" maxlength="5" placeholder="Ingresa tu palabra" />
+        <button id="submit-guess">Adivinar</button>
+        <div id="message"></div>
+        <button id="restart-game">Reiniciar Juego</button>
+    </div>
+</body>
+</html>
