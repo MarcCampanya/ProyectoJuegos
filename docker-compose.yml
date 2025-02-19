@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/todos  # Cambia la IP por el nombre del servicio
+    networks:
+      - app-network 
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network 
+
+  mongo-express:
+    image: mongo-express:1.0.0
+    container_name: mongo_express
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo  # Usa el nombre del servicio en lugar de una IP
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true     
+      - ME_CONFIG_BASICAUTH_USERNAME=           
+      - ME_CONFIG_BASICAUTH_PASSWORD=           
+    networks:
+      - app-network 
+
+volumes:
+  mongo-data: 
+
+networks:
+  app-network: 
+    driver: bridge
